@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>LOGIN</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #form {
+                display: flex;
+                flex-direction: column;
+                border: 1px gray solid;
+                padding-bottom: 25px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            #login_form {
+                display: flex;
+                flex-direction: row;
+            }
+            #login_input {
+                display: flex;
+                flex-direction: column;
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="form">
+            <h1>CREATE WEB</h1>
+
+            <form action="/process/create" id="login_form" method="post">
+                <div id="login_input">
+                    <input type="text" id="name" name="name" placeholder="name">
+                    <input type="text" id="id" name="id" placeholder="id">
+                    <input type="password" id="password" name="password" placeholder="password">
+                </div>
+                
+                <input type="submit">
+            </form>
+            <a href="/">login web</a>
+        </div>
+
+    </body>
+</html>
