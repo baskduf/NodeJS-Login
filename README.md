@@ -1,7 +1,4 @@
 # NodeJS-Login
-
-
-<h2>사용한것</h2>
 <li>NodeJs Express</li>
 <li>Express-session</li>
 <li>Express-MYSQL-session</li>
