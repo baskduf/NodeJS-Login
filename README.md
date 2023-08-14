@@ -1,12 +1,10 @@
-<<<<<<< HEAD
-# NodeJS-Login-Passport
-=======
+
 # NodeJS-Login
 <li>NodeJs Express</li>
 <li>Express-session</li>
 <li>Express-MYSQL-session</li>
 <li>body-parser</li>
-
+<li>passport</li>
 
 <h2>로그인 홈페이지</h2>
 <img width="322" alt="1" src="https://github.com/baskduf/NodeJS-Login/assets/20144414/4bb71edb-363b-4b64-859c-b7837abafef9">
