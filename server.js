@@ -5,7 +5,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
 const loginRouter = require('./routes/login.js');
-const processRouter = require('./routes/process.js');
+
 
 const options = {
 	host: 'localhost',
@@ -25,10 +25,17 @@ app.use(session({
 	saveUninitialized: false
 }));
 
+// 주어진 폴더의 절대경로를 가상 경로로 접근 가능하게 함
+// 디렉터리 하위 파일들까지 적용됨
+app.use('/html', express.static(__dirname + '/html'));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
 
-
+const query = require('./lib/query.js');
+let q = new query();
+const passport = require('./lib/passport.js')(app, q);
+const processRouter = require('./routes/process.js')(passport, q);
 
 app.use('/login', loginRouter);
 app.use('/process', processRouter);

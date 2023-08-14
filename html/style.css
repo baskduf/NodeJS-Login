@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form {
+    display: flex;
+    flex-direction: column;
+    border: 1px gray solid;
+    padding-bottom: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#login_form {
+    display: flex;
+    flex-direction: row;
+}
+#login_input {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}

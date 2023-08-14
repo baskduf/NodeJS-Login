@@ -1,68 +1,43 @@
-const express = require('express');
-const router = express.Router();
-const query = require('../lib/query.js');
-let q = new query();
+module.exports = function (passport, q) {
+    const express = require('express');
+    const router = express.Router();
+    //const authStatus = require('../lib/auth.js');
 
-router.get('/logout', (request, response)=>
-{   
-    if(request.session.isLogin)
-    {
-        request.session.destroy((err)=>
-        {
-            response.redirect('/');
-        });
-    }
-    else
-    {
-        response.redirect('/process/error/error_logout');
-    }
-})
-
-router.post('/login', (request, response) => {
-    if (!request.session.isLogin) {
-        let data = request.body;
-        q.loginUser(data['id'], data['password'], (res) => {
-            if (res == 0) {
-                response.redirect('/process/error/INVALID_PASSWORD');
-            } else {
-                request.session.id = data['id'];
-                request.session.password = data['password'];
-                request.session.name = data['name'];
-                request.session.isLogin = true;
-                request
-                    .session
-                    .save((err) => {
-                        response.redirect('/');
-                    });
-
-            }
-        });
-    } else {
-        response.redirect('/process/error/already_logged_in');
-    }
-});
-
-router.post('/create', (request, response) => {
-    if (!request.session.isLogin) {
-        let data = request.body;
-        q.findUser(data['name'], data['id'], (res) => {
-            if (res > 0) {
-                response.redirect('/process/error/HAS_ID');
-            } else {
-                q.createUser(data['name'], data['id'], data['password'], () => {
+    router.get('/logout', (request, response) => {
+        if (request.user) {
+            request.logOut((err) => {
+                request.session.destroy((err)=> {
                     response.redirect('/');
                 });
-            }
-        });
-    } else {
-        response.redirect('/process/error/already_logged_in');
-    }
-});
+            });
+        } else {
+            response.redirect('/process/error/error_logout');
+        }
+    })
 
-router.get('/error/:errortype', (request, response) => {
-    response.send(
-        `<script>if(! alert("${request.params.errortype}")) document.location = "http://127.0.0.1:3000/";</script>`
-    );
-});
+    router.post('/login', passport.authenticate('local', {  successRedirect: '/', failureRedirect: '/login', failureMessage: true }));
 
-module.exports = router;
+    router.post('/create', (request, response) => {
+        if (!request.user) {
+            let data = request.body;
+            q.findUser(data['name'], data['id'], (res) => {
+                if (res > 0) {
+                    response.redirect('/process/error/HAS_ID');
+                } else {
+                    q.createUser(data['name'], data['id'], data['password'], () => {
+                        response.redirect('/');
+                    });
+                }
+            });
+        } else {
+            response.redirect('/process/error/already_logged_in');
+        }
+    });
+
+    router.get('/error/:errortype', (request, response) => {
+        response.send(
+            `<script>if(! alert("${request.params.errortype}")) document.location = "/";</script>`
+        );
+    });
+    return router;
+}

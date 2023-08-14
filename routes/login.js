@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+//const authStatus = require('../lib/auth.js');
 
 router.get('/create', (request, response) => {
-    if (!request.session.isLogin) {
+    if (!request.user) {
         fs.readFile('./html/create.html', 'utf-8', (err, data) => {
             response.send(data);
         });
@@ -15,7 +16,7 @@ router.get('/create', (request, response) => {
 });
 
 router.get('/', (request, response) => {
-    if (!request.session.isLogin) {
+    if (!request.user) {
         fs.readFile('./html/login.html', 'utf-8', (err, data) => {
             response.send(data);
         });
